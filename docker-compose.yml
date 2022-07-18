@@ -1,0 +1,34 @@
+version: '3'
+services:
+  guacdb:
+    container_name: guacdb
+    image: mariadb/server:latest
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: 'R00TMysqlPassword'
+      MYSQL_DATABASE: 'guacamole_db'
+      MYSQL_USER: 'guacamole_user'
+      MYSQL_PASSWORD: 'guacamole_dbPass'
+    volumes:
+      - 'guacdb-data:/var/lib/mysql'
+  guacd:
+    container_name: guacd
+    image: guacamole/guacd
+    restart: unless-stopped
+  guacamole:
+    container_name: guacamole
+    image: 'guacamole/guacamole:latest'
+    restart: unless-stopped
+    ports:
+      - '8081:8081'
+    environment:
+      GUACD_HOSTNAME: "guacd"
+      MYSQL_HOSTNAME: "guacdb"
+      MYSQL_DATABASE: "guacamole_db"
+      MYSQL_USER: "guacamole_user"
+      MYSQL_PASSWORD: "guacamole_dbPass"
+    depends_on:
+      - guacdb
+      - guacd
+volumes:
+  guacdb-data:
