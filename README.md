@@ -35,3 +35,4 @@ For Guacamole, ou need to specify the DB conecction:
       MYSQL_USER: "guacamole_user"
       MYSQL_PASSWORD: "guacamole_dbPass"
 
+And Good Luck
